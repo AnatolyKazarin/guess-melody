@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Timer} from '../timer/timer.jsx';
 
-
 const ArtistQuestionScreen = (props) => {
   const {
     question,
