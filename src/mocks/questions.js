@@ -4,19 +4,19 @@ const questions = [
     genre: `rock`,
     answers: [
       {
-        src: `https://cdn6.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28128%29.mp3`,
+        src: `https://cdn7.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28192kbps%29.mp3`,
         genre: `rock`,
       },
       {
-        src: `https://cdn6.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28128%29.mp3`,
+        src: `https://cdn7.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28192kbps%29.mp3`,
         genre: `pop`,
       },
       {
-        src: `https://cdn6.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28128%29.mp3`,
+        src: `https://cdn7.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28192kbps%29.mp3`,
         genre: `jazz`,
       },
       {
-        src: `https://cdn6.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28128%29.mp3`,
+        src: `https://cdn7.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28192kbps%29.mp3`,
         genre: `rock`,
       },
     ],
@@ -25,7 +25,7 @@ const questions = [
     type: `artist`,
     song: {
       artist: `Jim Beam`,
-      src: `https://cdn6.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28128%29.mp3`,
+      src: `https://cdn7.sefon.pro/files/prev/83/Zivert%20-%20Life%20%28192kbps%29.mp3`,
     },
     answers: [
       {

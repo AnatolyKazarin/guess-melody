@@ -1,74 +1,128 @@
-import React from "react";
-import {PureComponent} from "react";
+import React, {PureComponent} from "react";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
+
+import {ActionCreator} from "../../reducer";
 import {WelcomeScreen} from "../welcome-screen/welcome-screen.jsx";
 import {ArtistQuestionScreen} from "../artist-question-screen/artist-question-screen.jsx";
 import {GenreQuestionScreen} from "../genre-question-screen/genre-question-screen.jsx";
+import withActivePlayer from "../../hocs/with-active-player/with-active-player.js";
+
+const GenreQuestionScreenWrapped = withActivePlayer(GenreQuestionScreen);
+const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
 
 class App extends PureComponent {
-  static getScreen(question, props, onUserAnswer) {
-    if (question === -1) {
+  constructor(props) {
+    super(props);
+  }
+
+  _getScreen(question) {
+    if (!question) {
       const {
-        time,
         errorsCount,
-      } = props;
+        gameTime,
+        onWelcomeScreenClick,
+      } = this.props;
+
       return <WelcomeScreen
-        time = {time}
+        gameTime = {gameTime}
         errorsCount = {errorsCount}
-        onStartButtonClick = {onUserAnswer}
+        onClick = {onWelcomeScreenClick}
       />;
     }
 
-    const {questions} = props;
-    const currentQuestion = questions[question];
+    const {
+      onUserAnswer,
+      mistakes,
+      errorsCount,
+      onTimerTick,
+      time,
+      gameTime,
+      step
+    } = this.props;
 
-    switch (currentQuestion.type) {
-      case `genre`: return <GenreQuestionScreen
-        question = {currentQuestion}
-        onAnswer = {onUserAnswer}
+    switch (question.type) {
+      case `genre`: return <GenreQuestionScreenWrapped
+        step = {step}
+        question = {question}
+        onAnswer = {(userAnswer) => onUserAnswer(
+            userAnswer,
+            question,
+            mistakes,
+            errorsCount
+        )}
+        time = {time}
+        gameTime = {gameTime}
+        onTimerTick = {onTimerTick}
       />;
-      case `artist`: return <ArtistQuestionScreen
-        question = {currentQuestion}
-        onAnswer = {onUserAnswer}
+      case `artist`: return <ArtistQuestionScreenWrapped
+        question = {question}
+        onAnswer = {(userAnswer) => onUserAnswer(
+            userAnswer,
+            question,
+            mistakes,
+            errorsCount
+        )}
+        time = {time}
+        gameTime = {gameTime}
+        onTimerTick = {onTimerTick}
       />;
     }
 
     return null;
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      question: -1,
-    };
-  }
-
   render() {
     const {
-      time,
-      errorsCount,
       questions,
+      step,
     } = this.props;
-    const {question} = this.state;
 
-    return App.getScreen(question, this.props, () => {
-      this.setState((prevState) => {
-        const nextIndex = prevState.question + 1;
-        const isEnd = nextIndex >= questions.length;
-
-        return {
-          question: !isEnd ? nextIndex : -1,
-        };
-      });
-    });
+    return this._getScreen(questions[step]);
   }
 }
 
 App.propTypes = {
-  time: PropTypes.number,
+  gameTime: PropTypes.number.isRequired,
   errorsCount: PropTypes.number,
-  questions: PropTypes.isObject,
+  questions: PropTypes.array.isRequired,
+  step: PropTypes.number,
+  mistakes: PropTypes.number,
+  time: PropTypes.number,
+  onWelcomeScreenClick: PropTypes.func,
+  onUserAnswer: PropTypes.func,
+  onTimerTick: PropTypes.func,
+  mapStateToProps: PropTypes.func,
+  mapDispatchToProps: PropTypes.func,
 };
 
+const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
+  step: state.step,
+  mistakes: state.mistakes,
+  time: state.time
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+  onWelcomeScreenClick: () => {
+    dispatch(ActionCreator.incrementStep());
+  },
+
+  onUserAnswer: (userAnswer, question, mistakes, maxMistakes) => {
+    dispatch(ActionCreator.incrementStep());
+    dispatch(ActionCreator.incrementMistake(
+        userAnswer,
+        question,
+        mistakes,
+        maxMistakes
+    ));
+  },
+
+  onTimerTick: (time) => {
+    dispatch(ActionCreator.timerTick(time));
+  }
+});
+
 export {App};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
