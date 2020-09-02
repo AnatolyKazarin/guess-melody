@@ -6,6 +6,7 @@ const ArtistQuestionScreen = (props) => {
   const {
     question,
     time,
+    step,
     gameTime,
     onAnswer,
     onTimerTick,
@@ -56,18 +57,20 @@ const ArtistQuestionScreen = (props) => {
           </div>
         </div>
 
-        <form className="game__artist" onChange = {onAnswer}>
+        <form className="game__artist">
           {answers.map((it, i) => {
             return (
-              <div key={`answer-${i}`} className="artist">
+              <div key={`${step}-answer-${i}`} className="artist">
                 <input
-                  // checked={this.state.userAnswer}
                   className="artist__input visually-hidden"
                   type="radio"
                   name="answer"
                   value={`answer-${i}`}
                   id={`answer-${i}`}
-                  onChange={() => (it[i])}
+                  onChange={(evt) => {
+                    evt.preventDefault();
+                    onAnswer(it);
+                  }}
                 />
                 <label className="artist__name" htmlFor={`answer-${i}`}>
                   <img className="artist__picture" src={it.picture} alt={it.artist} />
@@ -90,6 +93,7 @@ ArtistQuestionScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
   onTimerTick: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
+  step: PropTypes.number.isRequired,
   gameTime: PropTypes.number.isRequired,
   renderPlayer: PropTypes.func.isRequired
 };

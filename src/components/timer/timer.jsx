@@ -33,9 +33,9 @@ class Timer extends PureComponent {
   render() {
     return (
       <div className="timer__value" xmlns="http://www.w3.org/1999/xhtml">
-        <span className="timer__mins">{`0` + Math.floor(this.state.time / 60)}</span>
+        <span className="timer__mins">{(Math.floor(this.state.time / 60) < 10) ? `0` + Math.floor(this.state.time / 60) : Math.floor(this.state.time / 60)}</span>
         <span className="timer__dots">:</span>
-        <span className="timer__secs">{this.state.time % 60}</span>
+        <span className="timer__secs">{(this.state.time % 60 < 10) ? `0` + this.state.time % 60 : this.state.time % 60}</span>
       </div>
     );
   }

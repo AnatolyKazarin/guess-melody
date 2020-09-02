@@ -57,6 +57,7 @@ class App extends PureComponent {
         onTimerTick = {onTimerTick}
       />;
       case `artist`: return <ArtistQuestionScreenWrapped
+        step = {step}
         question = {question}
         onAnswer = {(userAnswer) => onUserAnswer(
             userAnswer,
@@ -100,7 +101,8 @@ App.propTypes = {
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   step: state.step,
   mistakes: state.mistakes,
-  time: state.time
+  time: state.time,
+  // questions: state.questions
 });
 
 const mapDispatchToProps = (dispatch) => ({

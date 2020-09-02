@@ -1,3 +1,5 @@
+import api from './api.js';
+
 const isArtistAnswerCorrect = (userAnswer, question) =>
   userAnswer.artist === question.song.artist;
 
@@ -47,6 +49,23 @@ const ActionCreator = {
       type: `TIMER_TICK`,
       payload: 1
     };
+  },
+
+  loadQuestions: (questions) => {
+    return {
+      type: `LOAD_QUESTIONS`,
+      payload: questions
+    };
+  }
+
+};
+
+const Operation = {
+  loadQuestions: () => (dispatch) => {
+    return api.get(`/questions`)
+      .then((response) => {
+        dispatch(ActionCreator.loadQuestions(response.data));
+      });
   }
 };
 
@@ -54,6 +73,7 @@ const initialState = {
   step: -1,
   mistakes: 0,
   time: 0,
+  questions: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -80,5 +100,6 @@ export {
   ActionCreator,
   reducer,
   isArtistAnswerCorrect,
-  isGenreAnswerCorrect
+  isGenreAnswerCorrect,
+  Operation
 };
