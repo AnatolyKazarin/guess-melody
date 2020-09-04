@@ -56,6 +56,13 @@ const ActionCreator = {
       type: `LOAD_QUESTIONS`,
       payload: questions
     };
+  },
+
+  reset: () => {
+    return {
+      type: `RESET`,
+      pauload: null
+    };
   }
 
 };

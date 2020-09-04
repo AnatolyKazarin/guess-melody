@@ -47,4 +47,4 @@ Timer.propTypes = {
   time: PropTypes.number
 };
 
-export {Timer};
+export default Timer;

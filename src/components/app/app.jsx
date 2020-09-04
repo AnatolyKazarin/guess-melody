@@ -6,8 +6,9 @@ import {ActionCreator} from "../../reducer";
 import {WelcomeScreen} from "../welcome-screen/welcome-screen.jsx";
 import {ArtistQuestionScreen} from "../artist-question-screen/artist-question-screen.jsx";
 import {GenreQuestionScreen} from "../genre-question-screen/genre-question-screen.jsx";
+import Header from "../header/header.jsx";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player.js";
-import withUserAnswer from "../../hocs/with-user-answer/with-user-answer.js";
+import withUserAnswer from "../../hocs/with-user-answer/with-user-answer.jsx";
 
 const GenreQuestionScreenWrapped = withUserAnswer(withActivePlayer(GenreQuestionScreen));
 const ArtistQuestionScreenWrapped = withActivePlayer(ArtistQuestionScreen);
@@ -43,32 +44,43 @@ class App extends PureComponent {
     } = this.props;
 
     switch (question.type) {
-      case `genre`: return <GenreQuestionScreenWrapped
-        step = {step}
-        question = {question}
-        onAnswer = {(userAnswer) => onUserAnswer(
-            userAnswer,
-            question,
-            mistakes,
-            errorsCount
-        )}
-        time = {time}
-        gameTime = {gameTime}
-        onTimerTick = {onTimerTick}
-      />;
-      case `artist`: return <ArtistQuestionScreenWrapped
-        step = {step}
-        question = {question}
-        onAnswer = {(userAnswer) => onUserAnswer(
-            userAnswer,
-            question,
-            mistakes,
-            errorsCount
-        )}
-        time = {time}
-        gameTime = {gameTime}
-        onTimerTick = {onTimerTick}
-      />;
+      case `genre`: return (
+        <section className="game game--genre">
+          <Header
+            gameTime = {gameTime}
+          />
+          <GenreQuestionScreenWrapped
+            step = {step}
+            question = {question}
+            onAnswer = {(userAnswer) => onUserAnswer(
+                userAnswer,
+                question,
+                mistakes,
+                errorsCount
+            )}
+          />
+        </section>
+      );
+      case `artist`: return (
+        <section className="game game--artist">
+          <Header
+            gameTime = {gameTime}
+          />
+          <ArtistQuestionScreenWrapped
+            step = {step}
+            question = {question}
+            onAnswer = {(userAnswer) => onUserAnswer(
+                userAnswer,
+                question,
+                mistakes,
+                errorsCount
+            )}
+            time = {time}
+            gameTime = {gameTime}
+            onTimerTick = {onTimerTick}
+          />
+        </section>
+      );
     }
 
     return null;
@@ -101,7 +113,6 @@ App.propTypes = {
 const mapStateToProps = (state, ownProps) => Object.assign({}, ownProps, {
   step: state.step,
   mistakes: state.mistakes,
-  time: state.time,
   // questions: state.questions
 });
 
@@ -120,12 +131,7 @@ const mapDispatchToProps = (dispatch) => ({
         maxMistakes
     ));
   },
-
-  onTimerTick: (time) => {
-    dispatch(ActionCreator.timerTick(time));
-  }
 });
 
 export {App};
-
 export default connect(mapStateToProps, mapDispatchToProps)(App);
