@@ -4,7 +4,7 @@
 
 ---
 
-* [Ссылка на рабочий проект](https://anatolykazarin.github.io/guess-melody/public/)
+* [Результат работы!](https://anatolykazarin.github.io/guess-melody/public/)
 
 ---
 
@@ -18,4 +18,4 @@ MVC, High-Order Component (HOC), Composition, Conditional Rendering
 
 ---
 
-<img width="769" alt="Main Welcome Window" src="https://lh6.googleusercontent.com/aNSNg-pPSf8uGmXLAtW-eEHPT-Gw4FKGSHTDF6Y8chJ6ES2QKwrNiUzzAjDwp4EqQSY5VcONbtVezcha_iUo=w2560-h1442-rw">
+<img width="769" alt="Main Welcome Window" src="https://raw.githubusercontent.com/AnatolyKazarin/guess-melody/master/public/img/ScreenShot.png">
